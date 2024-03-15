@@ -4,6 +4,7 @@
 #include "frida-gumjs.h"
 
 extern guint64  entry_point;
+extern guint64  other_func;
 extern gboolean traceable;
 extern gboolean entry_compiled;
 extern gboolean entry_run;

@@ -18,6 +18,7 @@
 extern void __afl_manual_init();
 
 guint64  entry_point = 0;
+guint64 other_func = 0;
 gboolean traceable = FALSE;
 gboolean entry_compiled = FALSE;
 gboolean entry_run = FALSE;
@@ -63,6 +64,7 @@ void entry_on_fork(void) {
 void entry_config(void) {
 
   entry_point = util_read_address("AFL_ENTRYPOINT", 0);
+  other_func = util_read_address("AFL_OTHER_FUNC", 0);
   if (getenv("AFL_FRIDA_TRACEABLE") != NULL) { traceable = TRUE; }
 
 }

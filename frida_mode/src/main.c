@@ -267,6 +267,15 @@ static void *on_entry(size_t a1, size_t a2, size_t a3, size_t a4, size_t a5,
 
 }
 
+static void *on_other(size_t a1, size_t a2, size_t a3, size_t a4, size_t a5,
+                      size_t a6) {
+
+  intercept_unhook(GSIZE_TO_POINTER(other_func));
+  afl_frida_run();
+  entry_func_t entry = (entry_func_t)other_func;
+  return entry(a1, a2, a3, a4, a5, a6);
+
+}
 static int on_main(int argc, char **argv, char **envp) {
 
   int ret;
@@ -287,6 +296,9 @@ static int on_main(int argc, char **argv, char **envp) {
 
   }
 
+  if(other_func != 0 ) {
+    intercept_hook(GSIZE_TO_POINTER(other_func), on_other, NULL);
+  }
   if (js_main_hook != NULL) {
 
     ret = js_main_hook(argc, argv, envp);
